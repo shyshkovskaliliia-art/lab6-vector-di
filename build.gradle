@@ -1,8 +1,9 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group = 'org.example'
+group = 'ua.edu.chnu.kkn'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,10 +11,35 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    // Dagger 2 - DI framework
+    implementation 'com.google.dagger:dagger:2.44'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.44'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // Testing frameworks
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+}
+
+application {
+    mainClass = 'ua.edu.chnu.kkn.lab6.App'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 test {
     useJUnitPlatform()
+}
+
+// Для коректної роботи Dagger в IntelliJ IDEA
+tasks.withType(JavaCompile) {
+    options.annotationProcessorPath = configurations.annotationProcessor
 }
